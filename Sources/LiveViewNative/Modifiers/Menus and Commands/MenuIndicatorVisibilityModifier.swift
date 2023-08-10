@@ -27,7 +27,7 @@ import SwiftUI
 #if swift(>=5.8)
 @_documentation(visibility: public)
 #endif
-@available(iOS 16.0, macOS 13.0, tvOS 16.0, *)
+@available(iOS 16.0, macOS 13.0, tvOS 17.0, *)
 struct MenuIndicatorVisibilityModifier: ViewModifier, Decodable {
     /// The indicator visibility.
     ///

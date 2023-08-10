@@ -45,7 +45,7 @@ import SwiftUI
 #if swift(>=5.8)
 @_documentation(visibility: public)
 #endif
-@available(iOS 16, macOS 13, tvOS 16, *)
+@available(iOS 16, macOS 13, tvOS 16.4, *)
 struct SearchScopesModifier<R: RootRegistry>: ViewModifier, Decodable {
     /// Synchronizes the active scope with the server.
     #if swift(>=5.8)
@@ -64,12 +64,14 @@ struct SearchScopesModifier<R: RootRegistry>: ViewModifier, Decodable {
     #endif
     private let activation: String?
     
-    @available(iOS 16.4, macOS 13.3, watchOS 9.4, *)
+    @available(iOS 16.4, macOS 13.3, watchOS 9.4, tvOS 16.4, *)
     private var searchScopeActivation: SearchScopeActivation {
         switch activation {
         case "automatic": return .automatic
+        #if !os(tvOS)
         case "on_search_presentation": return .onSearchPresentation
         case "on_text_entry": return .onTextEntry
+        #endif
         default: return .automatic
         }
     }
@@ -93,7 +95,7 @@ struct SearchScopesModifier<R: RootRegistry>: ViewModifier, Decodable {
 
     func body(content: Content) -> some View {
         #if os(iOS) || os(macOS) || os(tvOS)
-        if #available(iOS 16.4, macOS 13.3, tvOS 16.4, *) {
+        if #available(iOS 16.4, macOS 13.3, *) {
             content.searchScopes($active, activation: searchScopeActivation) {
                 context.buildChildren(of: element, forTemplate: scopes)
             }
